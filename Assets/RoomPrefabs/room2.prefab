@@ -2109,4 +2109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73eebcb33f5eda64f87ede7404b8e03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 3
+  direction: 0

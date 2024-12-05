@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    
     public List<GameObject> rooms = new List<GameObject>();
     private Grid grid;
 
@@ -13,91 +12,114 @@ public class MapGenerator : MonoBehaviour
     {
         grid=FindObjectOfType<Grid>();
         GameObject firstRoom=Instantiate(rooms[Rand(rooms.Count)]);
-        firstRoom.transform.SetParent(grid.transform);
+        /*firstRoom.transform.SetParent(grid.transform);
         Door[] doors = firstRoom.GetComponentsInChildren<Door>();
         foreach (Door door in doors)
         {
-            GenerateRoom(door);
-        }
+            Debug.Log(door.direction);
+            //GenerateRoom(door);
+        }*/
+        AssignDoor(firstRoom);
 
+    }
+    public void AssignDoor(GameObject room)
+    {
+        room.transform.SetParent(grid.transform);
+        Door[] doors = room.GetComponentsInChildren<Door>();
+        foreach (Door door in doors)
+        {
+            if(!door.used)
+            {
+                Debug.Log(door.direction);
+                GenerateRoom(door);
+            }
+            
+        }
     }
     public void GenerateRoom(Door door)
     {
-        Vector2 doorPosition = door.transform.position;
+        
         GameObject room = Instantiate(rooms[Rand(rooms.Count)]);
-        Door[] doors = room.GetComponentsInChildren<Door>();
 
+        Door[] doors = room.GetComponentsInChildren<Door>();
+        SetRoom(door,doors[Rand(doors.Length)],room);
+
+    }
+    /*public void SetRoom(Door old, Door newD)
+    {
+        old.used = true;
+        newD.used = true;
+        //hacer que se conecten mediante las direcciones 0=derecha, izquierda=2, 1=arriba, 3=abajo cogiendo sus transform position i moviendo todo el prefab
+    }*/
+    /*public void SetRoom(Door old, Door newD, GameObject room)
+    {
+        old.used = true;
+        newD.used = true;
+
+        // Obtener las posiciones de las puertas actuales en 2D
+        Vector2 oldDoorPosition = old.transform.position;
+        Vector2 newDoorPosition = newD.transform.position;
+
+        // Calcular la diferencia de posición necesaria para alinear las puertas
+        Vector2 offset = Vector2.zero;
+        switch (old.direction)
+        {
+            case 0: // Derecha
+                offset = oldDoorPosition - newDoorPosition + new Vector2(1, 0);
+                break;
+            case 1: // Arriba
+                offset = oldDoorPosition - newDoorPosition + new Vector2(0, 1);
+                break;
+            case 2: // Izquierda
+                offset = oldDoorPosition - newDoorPosition + new Vector2(-1, 0);
+                break;
+            case 3: // Abajo
+                offset = oldDoorPosition - newDoorPosition + new Vector2(0, -1);
+                break;
+        }
+
+        // Mover toda la nueva sala para conectar las puertas
+        Transform roomTransform = newD.transform.parent;
+        roomTransform.position += (Vector3)offset; // Convertimos Vector2 a Vector3
+        AssignDoor(room);
+    }*/
+    public void SetRoom(Door old, Door newD, GameObject room)
+    {
+        old.used = true; // Marcar la puerta actual como usada
+        newD.used = true; // Marcar la nueva puerta como usada
+
+        // Calcular la rotación adecuada
+        int targetDirection = (old.direction + 2) % 4; // Dirección opuesta
+        int rotationSteps = (targetDirection - newD.direction + 4) % 4; // Diferencia de direcciones
+        float rotationAngle = rotationSteps * 90f; // Rotar en pasos de 90 grados
+
+        // Aplicar la rotación a la nueva sala
+        room.transform.Rotate(0, 0, rotationAngle);
+        if (Mathf.Abs(rotationAngle) > 180f)
+        {
+            Vector3 currentScale = room.transform.localScale;
+            currentScale.y *= -1; // Invertir el eje X para reflejar el sprite
+            room.transform.localScale = currentScale;
+        }
+
+        // Obtener las posiciones de las puertas actuales en 2D
+        Vector2 oldDoorPosition = old.transform.position;
+        Vector2 newDoorPosition = newD.transform.position;
+
+        // Calcular la diferencia de posición necesaria para alinear las puertas
+        Vector2 offset = oldDoorPosition - newDoorPosition;
+
+        // Mover la nueva sala para alinear las puertas
+        Transform roomTransform = newD.transform.parent;
+        roomTransform.position += (Vector3)offset;
+
+        // Asignar puertas de la nueva sala para continuar el mapa
+        AssignDoor(room);
     }
     public int Rand(int num)
     {
         return Random.Range(0, num);
 
     }
-    /*
-      public List<GameObject> rooms = new List<GameObject>(); // Lista de prefabs de las habitaciones
-    private Grid grid; // Referencia al sistema de Grid (opcional)
-
-    private void Start()
-    {
-        // Encuentra el objeto Grid en la escena
-        grid = FindObjectOfType<Grid>();
-
-        // Genera la primera habitación
-        GameObject firstRoom = Instantiate(rooms[Rand()]);
-        firstRoom.transform.SetParent(grid.transform);
-
-        // Obtén todas las puertas de la primera habitación
-        Door[] doors = firstRoom.GetComponentsInChildren<Door>();
-
-        // Para cada puerta en la primera habitación, genera una nueva habitación
-        foreach (Door door in doors)
-        {
-            GenerateRoom(door);
-        }
-    }
-
-    // Genera una nueva habitación conectada a la puerta dada
-    public void GenerateRoom(Door door)
-    {
-        // Obtén la posición de la puerta
-        Vector2 doorPosition = door.transform.position;
-
-        // Elige una habitación aleatoria de la lista
-        GameObject newRoomPrefab = rooms[Rand()];
-
-        // Instancia una nueva habitación
-        GameObject newRoom = Instantiate(newRoomPrefab);
-
-        // Ajusta la posición de la nueva habitación para conectarla a la puerta
-        Vector2 newRoomPosition = GetRoomPositionFromDoor(door);
-
-        // Establece la posición de la nueva habitación
-        newRoom.transform.position = newRoomPosition;
-
-        // Configura las puertas de la nueva habitación
-        Door[] newRoomDoors = newRoom.GetComponentsInChildren<Door>();
-        foreach (Door newDoor in newRoomDoors)
-        {
-            // Asegúrate de que las nuevas puertas no se conecten a sí mismas
-            if (Vector2.Distance(newDoor.transform.position, doorPosition) > 0.1f)
-            {
-                GenerateRoom(newDoor); // Genera nuevas habitaciones desde las puertas restantes
-            }
-        }
-    }
-
-    // Calcula la posición de la nueva habitación a partir de una puerta existente
-    private Vector2 GetRoomPositionFromDoor(Door door)
-    {
-        // Calcula el desplazamiento basado en la dirección de la puerta
-        Vector2 offset = door.GetOffset(); // Implementa en el script Door un método que devuelva la dirección
-        return (Vector2)door.transform.position + offset;
-    }
-
-    // Devuelve un índice aleatorio para seleccionar una habitación
-    public int Rand()
-    {
-        return Random.Range(0, rooms.Count);
-    }
-     */
+    
 }
