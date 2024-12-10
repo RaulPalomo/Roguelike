@@ -8,6 +8,7 @@ public class MapGen : MonoBehaviour
     public int maxRooms = 30; // Número máximo de habitaciones a generar
     private int currentRoomCount = 0; // Contador de habitaciones generadas
     private Grid grid;
+    private HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class MapGen : MonoBehaviour
         GameObject firstRoom = Instantiate(rooms[Rand(rooms.Count)]);
         firstRoom.transform.SetParent(grid.transform); // Asegurarse de que la primera habitación sea hija del grid
         currentRoomCount++;
+        occupiedPositions.Add(firstRoom.transform.position);
         AssignDoor(firstRoom); // Asignar puertas de la primera habitación
     }
 
@@ -44,7 +46,7 @@ public class MapGen : MonoBehaviour
         int attempts = 0; // Intentos para generar una habitación válida
         GameObject room = null;
 
-        while (!found && attempts < 10) // Máximo 10 intentos para colocar la habitación
+        while (!found && attempts < 20) // Máximo 10 intentos para colocar la habitación
         {
             room = Instantiate(rooms[Rand(rooms.Count)]); // Instanciar una nueva habitación
             int oppositeDoor = GetOppositeDirection(door.direction);
@@ -66,6 +68,7 @@ public class MapGen : MonoBehaviour
                         room.transform.position = potentialPosition;
                         SetRoom(door, d, room); // Conectar las puertas
                         currentRoomCount++; // Incrementar el contador de habitaciones
+                        occupiedPositions.Add(potentialPosition);
                         found = true;
                         break;
                     }
@@ -91,7 +94,10 @@ public class MapGen : MonoBehaviour
     {
         // Mueve la habitación temporalmente a la posición propuesta
         room.transform.position = position;
-
+        if (occupiedPositions.Contains(position))
+        {
+            return false; // La posición está ocupada
+        }
         // Obtener el collider de la habitación
         Collider2D roomCollider = room.GetComponent<Collider2D>();
 

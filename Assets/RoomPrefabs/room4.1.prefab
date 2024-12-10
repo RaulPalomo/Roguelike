@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6460716540354533017}
   - component: {fileID: 5729963717202770168}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 2015778048476763964}
   - component: {fileID: 6645556120365001891}
   - component: {fileID: 2429000563907329305}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,46 +928,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -1, y: 3, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 3, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -1, y: 4, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 4, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 0
@@ -978,7 +938,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: b081808d7baf40042bfd7858ce018492, type: 2}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 0d96bf14ba3690c45b6d384f658612ea, type: 2}
-  - m_RefCount: 62
+  - m_RefCount: 58
     m_Data: {fileID: 11400000, guid: 2eeeec3c241fadc459b136a35e864581, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -1015,7 +975,7 @@ Tilemap:
     m_Data: {fileID: -265965381, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 62
+  - m_RefCount: 58
     m_Data: {fileID: -1367719401, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   - m_RefCount: 5
     m_Data: {fileID: -1537079063, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
@@ -1044,7 +1004,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -2018342297, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 88
+  - m_RefCount: 84
     m_Data:
       e00: 1
       e01: 0
@@ -1063,7 +1023,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 88
+  - m_RefCount: 84
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -1152,7 +1112,7 @@ GameObject:
   - component: {fileID: 784648900947454442}
   - component: {fileID: 1786921403913730442}
   - component: {fileID: 3906200011540423651}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2223,7 +2183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2776827127536474073}
   - component: {fileID: 7626922835732983277}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2269,7 +2229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6358381893947737202}
   - component: {fileID: 3521374171087518475}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2314,7 +2274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4732075340657103995}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: room4.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

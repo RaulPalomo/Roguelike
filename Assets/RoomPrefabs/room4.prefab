@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5934515568060633998}
   - component: {fileID: 7637499309565220253}
   - component: {fileID: 3002285963913297525}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1117,7 +1117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3569139484148736623}
   - component: {fileID: 3370409419134693095}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1163,7 +1163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8021869633582851553}
   - component: {fileID: 4693391124439805469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1208,7 +1208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8761064351301617580}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: room4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1246,7 +1246,7 @@ GameObject:
   - component: {fileID: 2546100017951454488}
   - component: {fileID: 4904797124455323400}
   - component: {fileID: 8457151492270365119}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2317,7 +2317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9213146903874110339}
   - component: {fileID: 4724906512801778307}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
