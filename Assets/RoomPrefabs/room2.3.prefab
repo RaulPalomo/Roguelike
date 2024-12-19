@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6164747696622369073}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: room2.3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 2915838668320397722}
   - component: {fileID: 9191224300457931882}
   - component: {fileID: 5063010145611232444}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,26 +719,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -2, y: 5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 1, y: 5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 2
@@ -749,7 +729,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 5a08be7b5c5bb1d4e8aa32f794814556, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 699827ff0294f784eb08e1ae7fbe7b67, type: 2}
-  - m_RefCount: 16
+  - m_RefCount: 14
     m_Data: {fileID: 11400000, guid: eebfa32a633f00f4ba45fa7b4e61a51c, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -780,7 +760,7 @@ Tilemap:
     m_Data: {fileID: -1971823790, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 16
+  - m_RefCount: 14
     m_Data: {fileID: -1007767700, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -803,7 +783,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -725936826, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 66
+  - m_RefCount: 64
     m_Data:
       e00: 1
       e01: 0
@@ -822,7 +802,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 66
+  - m_RefCount: 64
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -1001,12 +981,8 @@ CompositeCollider2D:
     m_ColliderPaths:
     - - X: 70000000
         Y: 50000000
-      - X: 20000000
+      - X: 10000000
         Y: 50000000
-      - X: 20000000
-        Y: 60000000
-      - X: 10000000
-        Y: 60000000
       - X: 10000000
         Y: 30000000
       - X: 60000000
@@ -1020,10 +996,6 @@ CompositeCollider2D:
       - X: -10000000
         Y: 30000000
       - X: -10000000
-        Y: 60000000
-      - X: -20000000
-        Y: 60000000
-      - X: -20000000
         Y: 50000000
       - X: -70000000
         Y: 50000000
@@ -1035,18 +1007,14 @@ CompositeCollider2D:
     m_Paths:
     - - {x: 6.9999704, y: -5}
       - {x: 6.9999704, y: 5}
-      - {x: 2, y: 5.0000296}
-      - {x: 1.9999708, y: 6}
-      - {x: 1, y: 5.999971}
+      - {x: 1, y: 4.999971}
       - {x: 1.0000293, y: 3}
       - {x: 6, y: 2.9999707}
       - {x: 5.9999704, y: -3}
       - {x: -6, y: -2.9999707}
       - {x: -5.9999704, y: 3}
       - {x: -1, y: 3.0000293}
-      - {x: -1.0000293, y: 6}
-      - {x: -2, y: 5.999971}
-      - {x: -2.0000293, y: 5}
+      - {x: -1.0000293, y: 5}
       - {x: -7, y: 4.999971}
       - {x: -6.9999704, y: -5}
   m_VertexDistance: 0.0005
@@ -1063,7 +1031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6939893445081729467}
   - component: {fileID: 6428307204603663544}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Door1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1047,7 @@ Transform:
   m_GameObject: {fileID: 5675920603724906858}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1110,7 +1078,7 @@ GameObject:
   - component: {fileID: 1356374782187069495}
   - component: {fileID: 4920006898859873058}
   - component: {fileID: 1092292545448402114}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1901,26 +1869,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -1, y: 5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 16
-      m_TileSpriteIndex: 14
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 16
-      m_TileSpriteIndex: 14
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 0
@@ -1955,7 +1903,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 4
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 73b5e9e88aa6d6842a499672bdd0684e, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -1988,7 +1936,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 4
+  - m_RefCount: 2
     m_Data: {fileID: 977193622, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -1997,7 +1945,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -2018342297, guid: b728d38f7b2211547ad7030991925a8d, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 78
+  - m_RefCount: 76
     m_Data:
       e00: 1
       e01: 0
@@ -2016,7 +1964,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 78
+  - m_RefCount: 76
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
