@@ -2,22 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGen : MonoBehaviour
+public class MapGen3 : MonoBehaviour
 {
     public List<GameObject> rooms = new List<GameObject>(); // Lista de habitaciones
     public int maxRooms = 30; // Número máximo de habitaciones a generar
     private int currentRoomCount = 0; // Contador de habitaciones generadas
     private Grid grid;
-    private HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
+    private HashSet<Vector3Int> occupiedPositions = new HashSet<Vector3Int>();
 
     private void Start()
     {
         grid = FindObjectOfType<Grid>();
+
+        // Generar la primera habitación en (0, 0, 0)
         GameObject firstRoom = Instantiate(rooms[Rand(rooms.Count)]);
-        firstRoom.transform.SetParent(grid.transform); // Asegurarse de que la primera habitación sea hija del grid
+        firstRoom.transform.SetParent(grid.transform);
+        firstRoom.transform.position = grid.CellToWorld(Vector3Int.zero);
+
         currentRoomCount++;
-        occupiedPositions.Add(firstRoom.transform.position);
-        AssignDoor(firstRoom); // Asignar puertas de la primera habitación
+        occupiedPositions.Add(Vector3Int.zero);
+
+        // Asignar las puertas de la primera habitación
+        AssignDoor(firstRoom);
     }
 
     // Asigna las puertas de la sala y genera nuevas habitaciones
@@ -25,7 +31,6 @@ public class MapGen : MonoBehaviour
     {
         if (currentRoomCount >= maxRooms) return; // Si se alcanzó el límite, no generar más habitaciones
 
-        room.transform.SetParent(grid.transform); // Asegurarse de que la nueva habitación sea hija del grid
         Door[] doors = room.GetComponentsInChildren<Door>(); // Obtener las puertas de la habitación
         foreach (Door door in doors)
         {
@@ -40,36 +45,40 @@ public class MapGen : MonoBehaviour
     // Genera una nueva habitación a partir de una puerta dada
     public void GenerateRoom(Door door)
     {
-         // Si se alcanzó el límite, no generar más habitaciones
+        if (currentRoomCount >= maxRooms) return; // Si se alcanzó el límite, no generar más habitaciones
 
         bool found = false;
         int attempts = 0; // Intentos para generar una habitación válida
         GameObject room = null;
 
-        while (!found && attempts < 20) // Máximo 10 intentos para colocar la habitación
+        while (!found && attempts < 20) // Máximo 20 intentos para colocar la habitación
         {
             room = Instantiate(rooms[Rand(rooms.Count)]); // Instanciar una nueva habitación
-            
+            room.transform.SetParent(grid.transform);
             int oppositeDoor = GetOppositeDirection(door.direction);
             Door[] doors = room.GetComponentsInChildren<Door>(); // Obtener puertas de la nueva habitación
-            
-            foreach (Door d in doors)
+
+            foreach (Door newDoor in doors)
             {
-                if (d.direction == oppositeDoor)
+                if (newDoor.direction == oppositeDoor)
                 {
                     // Calcular la posición potencial de la nueva habitación
                     Vector2 oldDoorPosition = door.transform.position;
-                    Vector2 newDoorPosition = d.transform.position;
+                    Vector2 newDoorPosition = newDoor.transform.position;
                     Vector2 offset = oldDoorPosition - newDoorPosition;
                     Vector3 potentialPosition = room.transform.position + (Vector3)offset;
 
+                    // Alinea la posición al grid
+                    Vector3Int cellPosition = grid.WorldToCell(potentialPosition);
+                    potentialPosition = grid.CellToWorld(cellPosition);
+
                     // Verificar si la posición es válida
-                    if (IsPositionValid(room, potentialPosition))
+                    if (DoesRoomFit(room, cellPosition))
                     {
                         room.transform.position = potentialPosition;
-                        SetRoom(door, d, room); // Conectar las puertas
+                        SetRoom(door, newDoor, room); // Conectar las puertas
                         currentRoomCount++; // Incrementar el contador de habitaciones
-                        occupiedPositions.Add(potentialPosition);
+                        occupiedPositions.Add(cellPosition);
                         found = true;
                         break;
                     }
@@ -89,62 +98,49 @@ public class MapGen : MonoBehaviour
             Debug.LogWarning("No se pudo colocar una habitación válida después de varios intentos.");
         }
     }
-    
-    // Verifica si la posición de una nueva habitación es válida usando colisiones
-    private bool IsPositionValid(GameObject room, Vector3 position)
-    {
-        // Mueve la habitación temporalmente a la posición propuesta
-        room.transform.position = position;
-        if (occupiedPositions.Contains(position))
-        {
-            return false; // La posición está ocupada
-        }
-        // Obtener el collider de la habitación
-        Collider2D roomCollider = room.GetComponent<Collider2D>();
 
+    private bool DoesRoomFit(GameObject room, Vector3Int position)
+    {
+        if (occupiedPositions.Contains(position)) return false; // Verificar si la posición ya está ocupada
+
+        Collider2D roomCollider = room.GetComponent<Collider2D>();
         if (roomCollider != null)
         {
-            // Comprobar si el collider colisiona con otros
             Collider2D[] overlaps = Physics2D.OverlapBoxAll(roomCollider.bounds.center, roomCollider.bounds.size, 0f);
             foreach (Collider2D overlap in overlaps)
             {
-                if (overlap.gameObject != room) // Ignorar la habitación actual
+                if (overlap.gameObject.CompareTag("Room") && overlap.gameObject != room)
                 {
-                    return false; // La posición está ocupada
+                    return false;
                 }
             }
         }
-
-        // Si no hay colisiones, la posición es válida
         return true;
     }
 
-    // Conecta las dos puertas (la antigua y la nueva) y ajusta la posición de la habitación
-    public void SetRoom(Door old, Door newD, GameObject room)
+    public void SetRoom(Door oldDoor, Door newDoor, GameObject room)
     {
-        old.used = true;  // Marcar la puerta antigua como usada
-        newD.used = true; // Marcar la nueva puerta como usada
+        oldDoor.used = true;  // Marcar la puerta antigua como usada
+        newDoor.used = true; // Marcar la nueva puerta como usada
 
         // Llamar a AssignDoor para seguir generando habitaciones
         AssignDoor(room);
     }
 
-    // Método para obtener la dirección opuesta de la puerta
-    public int GetOppositeDirection(int direction)
+    private int GetOppositeDirection(int direction)
     {
         switch (direction)
         {
-            case 0: return 2;
-            case 1: return 3;
-            case 2: return 0;
-            case 3: return 1;
+            case 0: return 2; // Norte -> Sur
+            case 1: return 3; // Este -> Oeste
+            case 2: return 0; // Sur -> Norte
+            case 3: return 1; // Oeste -> Este
             default: return -1;
         }
     }
 
-    // Método aleatorio para seleccionar un índice de la lista
     public int Rand(int num)
     {
-        return Random.Range(0, num); // Seleccionar un número aleatorio entre 0 y num-1
+        return Random.Range(0, num);
     }
 }
