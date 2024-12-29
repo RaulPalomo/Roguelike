@@ -67,77 +67,84 @@ public class NewMapGenerator : MonoBehaviour
         {
             ReplaceRooms();
         }
-        
-        
-        
-        
+
+
+
+
     }
     public void ReplaceRooms()
     {
-        int roomCount =0;
+        Debug.Log($"Starting ReplaceRooms... Total rooms: {rooms.Count}");
+        int roomIndex = 0; // Índice para depuración
+
         foreach (GameObject room in rooms)
         {
-            roomCount++;                                
+            roomIndex++;
             List<int> doors = new List<int>();
             Vector2 position = room.transform.position;
-            foreach (GameObject room2 in rooms)
+
+            // Identificar las puertas (vecinos) de la habitación actual
+            foreach (GameObject otherRoom in rooms)
             {
-                Vector2 otherPosition = room2.transform.position;
-                if(otherPosition.x == position.x + 14)
-                {
-                    doors.Add(0);
-                }
-                if (otherPosition.x == position.x - 14)
-                {
-                    doors.Add(2);
-                }
-                if (otherPosition.y == position.y + 10)
-                {
-                    doors.Add(1);
-                }
-                if (otherPosition.y == position.y - 10)
-                {
-                    doors.Add(3);
-                }
-                doors.Sort();
-                foreach (int d in doors)
-                {
-                    Debug.Log(roomCount +" "+d);
-                }
-                
-                foreach (GameObject rom in roomPrefabs)
-                {
-                    List<int> newDoors = new List<int>();
+                // Evitar comparar la habitación consigo misma
+                if (room == otherRoom) continue;
 
-                    Door[] doorsRom = rom.GetComponentsInChildren<Door>();
-                    /*foreach (Door door in doorsRom)
-                    {
-                        newDoors.Add(door.direction);
-                        Debug.Log("a"+door.direction);
-                    }*/
-                    newDoors.Sort();
-                    if (newDoors.SequenceEqual(doors))
-                    {
-                        Debug.Log("AAAAA");
-                        // Instanciar el nuevo prefab en la posición de la habitación actual
-                        GameObject newRoom = Instantiate(rom, room.transform.parent);
+                Vector2 otherPosition = otherRoom.transform.position;
 
-                        // Asegurarse de que esté en la misma posición que la habitación original
-                        newRoom.transform.localPosition = room.transform.localPosition;
-
-                        // Destruir la habitación original
-                        Destroy(room);
-
-                        // Salir del bucle, ya que se encontró un prefab válido
-                        break;
-                    }
+                // Comparar posiciones relativas para determinar puertas
+                if (otherPosition.x == position.x + 14 && otherPosition.y == position.y)
+                {
+                    if (!doors.Contains(0)) doors.Add(0); // Derecha
                 }
-                break;
+                if (otherPosition.x == position.x - 14 && otherPosition.y == position.y)
+                {
+                    if (!doors.Contains(2)) doors.Add(2); // Izquierda
+                }
+                if (otherPosition.y == position.y + 10 && otherPosition.x == position.x)
+                {
+                    if (!doors.Contains(1)) doors.Add(1); // Arriba
+                }
+                if (otherPosition.y == position.y - 10 && otherPosition.x == position.x)
+                {
+                    if (!doors.Contains(3)) doors.Add(3); // Abajo
+                }
             }
-            
+
+            // Ordenar puertas y depurar
+            doors.Sort();
+            Debug.Log($"Room {roomIndex} at {position}: Doors = {string.Join(",", doors)}");
+
+            // Intentar encontrar un prefab que coincida
+            bool replaced = false;
+            foreach (GameObject prefab in roomPrefabs)
+            {
+                // Obtener las puertas del prefab
+                Door[] prefabDoors = prefab.GetComponentsInChildren<Door>();
+                List<int> prefabDoorDirections = prefabDoors.Select(d => d.direction).ToList();
+                prefabDoorDirections.Sort();
+
+                Debug.Log($"Checking prefab {prefab.name}: Doors = {string.Join(",", prefabDoorDirections)}");
+
+                // Comparar puertas
+                if (prefabDoorDirections.SequenceEqual(doors))
+                {
+                    Debug.Log($"Match found! Replacing room {roomIndex} with prefab {prefab.name}.");
+                    GameObject newRoom = Instantiate(prefab, room.transform.parent);
+                    newRoom.transform.localPosition = room.transform.localPosition;
+
+                    // Destruir la habitación original
+                    Destroy(room);
+                    replaced = true;
+                    break;
+                }
+            }
+
+            if (!replaced)
+            {
+                Debug.LogWarning($"No matching prefab found for room {roomIndex}!");
+            }
         }
-        
-        
     }
+
 
 }
