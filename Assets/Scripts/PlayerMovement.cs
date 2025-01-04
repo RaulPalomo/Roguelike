@@ -11,24 +11,29 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;          // Entrada del movimiento
     private Rigidbody2D rb;                 // Referencia al Rigidbody2D
     private Animator animator;              // Referencia al Animator
-
+    private weaponController weaponController;
     private void Awake()
     {
         playerControls = new PlayerControls();
         // Obtiene las referencias al Rigidbody2D y Animator
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        weaponController = GetComponent<weaponController>();
     }
 
     private void OnEnable()
     {
         playerControls.Enable();
         playerControls.Player.Move.performed += OnMove;
+        playerControls.Player.Move.canceled += OnMove;
+        playerControls.Player.shot.performed += OnShot;
     }
     private void OnDisable()
     {
         playerControls.Disable();
         playerControls.Player.Move.performed -= OnMove;
+        playerControls.Player.Move.canceled -= OnMove;
+        playerControls.Player.shot.performed -= OnShot;
     }
 
     // Este método será llamado por Unity Events (vinculado a la acción Move)
@@ -36,7 +41,14 @@ public class PlayerMovement : MonoBehaviour
     {
         // Lee el Vector2 desde el contexto
         movementInput = context.ReadValue<Vector2>();
-        Debug.Log($"Input recibido: {movementInput}");
+        
+    }
+    public void OnShot(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            weaponController.UseWeapon();  // Llama a la función de disparo en el controlador de armas
+        }
     }
 
     private void Update()
