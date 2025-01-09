@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
@@ -16,35 +17,43 @@ public class EnemyBehavior : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        switch (currentState)
+        if (currentState != EnemyState.Dead)
         {
-            case EnemyState.Idle:
-                IdleState();
-                break;
-            case EnemyState.Chase:
-                ChaseState();
-                break;
-            case EnemyState.Attack:
-                AttackState();
-                break;
-            case EnemyState.Dead:
-                DeadState();
-                break;
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    IdleState();
+                    break;
+                case EnemyState.Chase:
+                    ChaseState();
+                    break;
+                case EnemyState.Attack:
+                    AttackState();
+                    break;
+                case EnemyState.Dead:
+                    DeadState();
+                    break;
+            }
+        }
+        else
+        {
+            DeadState();
         }
     }
 
     public void IdleState()
     {
-        Debug.Log("Idle");
+        
     }
 
     public void ChaseState()
     {
-        Debug.Log("Chase");
+       
         Vector3 direction = player.position - transform.position;
         if(direction.x < 0)
         {
@@ -60,12 +69,35 @@ public class EnemyBehavior : MonoBehaviour
 
     public void AttackState()
     {
-
-        Debug.Log("Attack");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        StartCoroutine(WaitAnimationAttack(player));
+    }
+    private IEnumerator WaitAnimationAttack(GameObject player)
+    {
+        yield return new WaitForSeconds(0.8f);
+        if (currentState == EnemyState.Attack)
+        {
+            player.GetComponent<PlayerMovement>().TakeDamage();
+            Debug.Log("Player lives: " + player.GetComponent<PlayerMovement>().lives);
+            health-=100;
+            currentState = EnemyState.Dead;
+        }
+        
     }
 
     public void DeadState()
     {
-        Debug.Log("Dead");
+        animator.SetBool("IsDead", true);
+        Destroy(gameObject, 2f);
+    }
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            
+            currentState = EnemyState.Dead;
+        }
+        Debug.Log("Enemy health: " + health);
     }
 }

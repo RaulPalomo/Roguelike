@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16eae12ae36d15f44b0c344389485666, type: 3}
   m_Name: Flamethrower
   m_EditorClassIdentifier: 
-  weaponName: 
-  damage: 0
-  cooldown: 0
+  weaponName: flamethrower
+  damage: 5
+  cooldown: 3
   icon: {fileID: 0}
-  flameEffect: {fileID: 0}
+  flameEffect: {fileID: 1661126047759580502, guid: bb3c91a6a6473af47a2a8abfb2dd080b, type: 3}

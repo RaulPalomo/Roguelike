@@ -114,7 +114,7 @@ public class NewMapGenerator : MonoBehaviour
 
             // Ordenar puertas y depurar
             doors.Sort();
-            Debug.Log($"Room {roomIndex} at {position}: Doors = {string.Join(",", doors)}");
+            
 
             // Intentar encontrar un prefab que coincida
             bool replaced = false;
@@ -126,7 +126,7 @@ public class NewMapGenerator : MonoBehaviour
                 List<int> prefabDoorDirections = prefabDoors.Select(d => d.direction).ToList();
                 prefabDoorDirections.Sort();
 
-                Debug.Log($"Checking prefab {prefab.name}: Doors = {string.Join(",", prefabDoorDirections)}");
+                
 
                 // Comparar puertas
                 if (prefabDoorDirections.SequenceEqual(doors))
@@ -145,7 +145,7 @@ public class NewMapGenerator : MonoBehaviour
             {
                 
                 GameObject prefab = possibleRoom[Random.Range(0,possibleRoom.Count)];
-                Debug.Log($"Match found! Replacing room {roomIndex} with prefab {prefab.name}.");
+                
                 GameObject newRoom = Instantiate(prefab, room.transform.parent);
                 newRoom.transform.localPosition = room.transform.localPosition;
 
@@ -158,34 +158,39 @@ public class NewMapGenerator : MonoBehaviour
     {
         foreach (GameObject room in rooms)
         {
-            int enemyCount = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom + 1);  // Determinar la cantidad de enemigos
-
-            for (int i = 0; i < enemyCount; i++)
+            if (room != rooms[0])
             {
-                int enemyIndex = Random.Range(0, enemyPrefabs.Count);  // Elegir un enemigo aleatorio
-                Vector2 spawnPosition = GetRandomPositionInRoom(room);  // Obtener una posición aleatoria dentro de la sala
-                GameObject newEnemy=Instantiate(enemyPrefabs[enemyIndex], spawnPosition, Quaternion.identity);  // Spawnear enemigo dentro de la sala
-                Debug.Log($"Enemy spawned in room {room.name} at {spawnPosition}.");
+                int enemyCount = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom + 1);  // Determinar la cantidad de enemigos
+
+                for (int i = 0; i < enemyCount; i++)
+                {
+                    int enemyIndex = Random.Range(0, enemyPrefabs.Count);  // Elegir un enemigo aleatorio
+                    Vector3 spawnPosition = GetRandomPositionInRoom(room);
+                    spawnPosition.z = -1;
+                    GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnPosition, Quaternion.identity);  // Spawnear enemigo dentro de la sala
+                    Debug.Log($"Enemy spawned in room {room.name} at {spawnPosition}.");
+                }
             }
         }
     }
-    private Vector2 GetRandomPositionInRoom(GameObject room)
+    private Vector3 GetRandomPositionInRoom(GameObject room)
     {
-        // Usa el Collider2D para obtener los límites de la sala
         BoxCollider2D roomCollider = room.GetComponent<BoxCollider2D>();
         if (roomCollider != null)
         {
-            Bounds bounds = roomCollider.bounds;
+            Vector3 roomCenter = room.transform.position;
+            float spawnRangeX = roomCollider.size.x * 0.3f;  
+            float spawnRangeY = roomCollider.size.y * 0.3f;  
 
-            float xOffset = Random.Range(bounds.min.x, bounds.max.x);
-            float yOffset = Random.Range(bounds.min.y, bounds.max.y);
+            float xOffset = Random.Range(-spawnRangeX, spawnRangeX);
+            float yOffset = Random.Range(-spawnRangeY, spawnRangeY);
 
-            return new Vector2(xOffset, yOffset);
+            return roomCenter + new Vector3(xOffset, yOffset);  // Desplazamiento desde el centro
         }
         else
         {
             Debug.LogWarning("Room does not have a Collider2D for spawning enemies.");
-            return room.transform.position;  // Si no hay colisionador, devuelve el centro de la sala
+            return room.transform.position;  // Si no hay colisionador, devuelve el centro
         }
     }
 
