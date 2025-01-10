@@ -21,6 +21,7 @@ public class sniperWeapon : WeaponSO
         Vector3 spawn = origin.position + (Vector3)direction *0.7f;
         spawn.z = -2f;
         GameObject bullet = Instantiate(bulletPrefab, spawn, Quaternion.identity);
+        bullet.GetComponent<bulletBehaviour>().damage = damage;
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {

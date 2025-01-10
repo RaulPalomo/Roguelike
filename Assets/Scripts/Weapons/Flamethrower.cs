@@ -13,8 +13,10 @@ public class Flamethrower : WeaponSO
 
         // Detectar enemigos en un cono o área frente al lanzallamas
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin.position, origin.up, 10f);
+        
         foreach (RaycastHit2D hit in hits)
         {
+            
             Debug.Log($"Quemado: {hit.collider.name}");
         }
     }

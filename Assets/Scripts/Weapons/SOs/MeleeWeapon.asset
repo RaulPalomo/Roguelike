@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07f4c79b5877734e9ecc2d03a53e3c3, type: 3}
   m_Name: MeleeWeapon
   m_EditorClassIdentifier: 
-  weaponName: 
-  damage: 0
-  cooldown: 0
+  weaponName: Palo
+  damage: 15
+  cooldown: 1
   icon: {fileID: 0}
-  range: 0
+  range: 2
+  hitEffect: {fileID: 5001435705769954501, guid: 072dfec3bae0fc346b328a91afe22bd9, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SniperWeapon
   m_EditorClassIdentifier: 
   weaponName: sniper
-  damage: 10
+  damage: 100
   cooldown: 0.7
   icon: {fileID: 0}
   bulletPrefab: {fileID: 1822388095758396944, guid: 22650bd6b87660247bf1d9aea8c51748, type: 3}
