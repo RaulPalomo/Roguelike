@@ -22,6 +22,7 @@ public class TurretBehaviour : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -103,6 +104,12 @@ public class TurretBehaviour : MonoBehaviour
         }
 
         spriteRenderer.color = targetColor;  // Asegura transparencia total
+          // Llama al evento de derrota de enemigo
         Destroy(gameObject);  // Destruye el objeto después del desvanecimiento
+    }
+
+    public void OnDestroy()
+    {
+        EventController.TriggerEnemyDefeat();
     }
 }

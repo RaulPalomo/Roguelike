@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.Log("Player already exists, destroying new player object");
             Destroy(gameObject);  
             return;
         }

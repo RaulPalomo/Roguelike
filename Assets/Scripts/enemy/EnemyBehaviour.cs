@@ -100,4 +100,8 @@ public class EnemyBehavior : MonoBehaviour
         }
         Debug.Log("Enemy health: " + health);
     }
+    public void OnDestroy()
+    {
+        EventController.TriggerEnemyDefeat();
+    }
 }

@@ -17,10 +17,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateHearts(player.GetComponent<PlayerMovement>().lives);
+        UpdateCoins();
     }
-    public void UpdateCoins(int coin)
+    public void UpdateCoins()
     {
-        coins.text = coin.ToString();
+        coins.text = player.GetComponent<PlayerMovement>().coins.ToString();
     }
     public void UpdateHearts(int health)
     {

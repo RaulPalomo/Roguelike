@@ -26,7 +26,8 @@ public class SceneController : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        if(sceneName=="MainMenu") { Destroy(GameObject.FindGameObjectWithTag("Player")); }
+        Time.timeScale = 1f;
     }
     public static void ExitGame()
     {
