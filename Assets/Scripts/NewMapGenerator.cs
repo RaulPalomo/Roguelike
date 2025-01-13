@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NewMapGenerator : MonoBehaviour
 {
@@ -140,6 +141,7 @@ public class NewMapGenerator : MonoBehaviour
             if (!replaced)
             {
                 Debug.LogWarning($"No matching prefab found for room {roomIndex}!");
+                SceneManager.LoadScene("Sample Scene");
             }
             else
             {
@@ -148,7 +150,7 @@ public class NewMapGenerator : MonoBehaviour
                 
                 GameObject newRoom = Instantiate(prefab, room.transform.parent);
                 newRoom.transform.localPosition = room.transform.localPosition;
-
+                room.name=newRoom.name;
                 Destroy(room);
             }
         }
@@ -158,7 +160,8 @@ public class NewMapGenerator : MonoBehaviour
     {
         foreach (GameObject room in rooms)
         {
-            if (room != rooms[0])
+            Debug.Log($"Spawning enemies in room {room.name}...");
+            if (room != rooms[0]&& (!room.name.Contains("room3.1 1") && !room.name.Contains("room3.0.1")))
             {
                 int enemyCount = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom + 1);  // Determinar la cantidad de enemigos
 

@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    public static PlayerMovement Instance { get; private set; }
     PlayerControls playerControls;
     public int lives = 3;
     public int coins = 0;
@@ -16,8 +18,15 @@ public class PlayerMovement : MonoBehaviour
     bool isDead = false;
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);  
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); 
         playerControls = new PlayerControls();
-        // Obtiene las referencias al Rigidbody2D y Animator
+        
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         weaponController = GetComponent<weaponController>();
@@ -31,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         playerControls.Player.Move.performed += OnMove;
         playerControls.Player.Move.canceled += OnMove;
         playerControls.Player.shot.performed += OnShot;
+
     }
     private void OnDisable()
     {
