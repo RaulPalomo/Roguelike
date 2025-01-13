@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NewMapGenerator : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class NewMapGenerator : MonoBehaviour
     public List<GameObject> enemyPrefabs;
     public int minEnemiesPerRoom = 1;
     public int maxEnemiesPerRoom = 5;
-
+    private int EnemyCount=0;
     void Start()
     {
         grid = FindObjectOfType<Grid>();
@@ -76,7 +77,7 @@ public class NewMapGenerator : MonoBehaviour
     }
     public void ReplaceRooms()
     {
-        Debug.Log($"Starting ReplaceRooms... Total rooms: {rooms.Count}");
+        
         int roomIndex = 0; 
 
         foreach (GameObject room in rooms)
@@ -139,7 +140,8 @@ public class NewMapGenerator : MonoBehaviour
 
             if (!replaced)
             {
-                Debug.LogWarning($"No matching prefab found for room {roomIndex}!");
+                
+                SceneManager.LoadScene("Sample Scene");
             }
             else
             {
@@ -148,7 +150,7 @@ public class NewMapGenerator : MonoBehaviour
                 
                 GameObject newRoom = Instantiate(prefab, room.transform.parent);
                 newRoom.transform.localPosition = room.transform.localPosition;
-
+                room.name=newRoom.name;
                 Destroy(room);
             }
         }
@@ -158,7 +160,8 @@ public class NewMapGenerator : MonoBehaviour
     {
         foreach (GameObject room in rooms)
         {
-            if (room != rooms[0])
+            
+            if (room != rooms[0]&& (!room.name.Contains("room3.1 1") && !room.name.Contains("room3.0.1")))
             {
                 int enemyCount = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom + 1);  // Determinar la cantidad de enemigos
 
@@ -168,10 +171,12 @@ public class NewMapGenerator : MonoBehaviour
                     Vector3 spawnPosition = GetRandomPositionInRoom(room);
                     spawnPosition.z = -1;
                     GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnPosition, Quaternion.identity);  // Spawnear enemigo dentro de la sala
-                    Debug.Log($"Enemy spawned in room {room.name} at {spawnPosition}.");
+                    EnemyCount++;
                 }
             }
         }
+        EventController eventController = FindObjectOfType<EventController>();
+        eventController.enemiesToDefeat = EnemyCount;
     }
     private Vector3 GetRandomPositionInRoom(GameObject room)
     {
@@ -189,7 +194,7 @@ public class NewMapGenerator : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Room does not have a Collider2D for spawning enemies.");
+           
             return room.transform.position;  // Si no hay colisionador, devuelve el centro
         }
     }
