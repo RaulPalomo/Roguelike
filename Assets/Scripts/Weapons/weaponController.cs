@@ -13,9 +13,9 @@ public class weaponController : MonoBehaviour
     private float lastShotTime;
     private PlayerControls playerControls;
 
-    public bool isSniperUnlocked = true;
-    public bool isMeleeUnlocked = true;
-    public bool isFlamethrowerUnlocked = true;
+    [SerializeField] public bool isSniperUnlocked = false;
+    [SerializeField] public bool isMeleeUnlocked = false;
+    [SerializeField] public bool isFlamethrowerUnlocked = false;
 
     private void Awake()
     {

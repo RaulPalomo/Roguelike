@@ -9,6 +9,8 @@ public class BackgroundDelay : MonoBehaviour
 
     void Start()
     {
+        
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         offset = transform.position - target.position;
     }
 
