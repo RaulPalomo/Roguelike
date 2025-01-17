@@ -21,8 +21,10 @@ public class PlayerMovement : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Debug.Log("Player already exists, destroying new player object");
-            Destroy(gameObject);  
+            Destroy(gameObject);
+            
             return;
+
         }
         Instance = this;
         DontDestroyOnLoad(gameObject); 
@@ -31,8 +33,28 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         weaponController = GetComponent<weaponController>();
-    }
+        GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(0, 0, 0);
 
+    }
+    private void Start()
+    {
+        weaponController.isMeleeUnlocked = false;
+        weaponController.isSniperUnlocked = false;
+        weaponController.isFlamethrowerUnlocked = false;
+        weaponController.currentWeapon=Random.Range(0,3);
+        if (weaponController.currentWeapon == 0)
+        {
+            weaponController.isMeleeUnlocked = true;
+        }
+        else if (weaponController.currentWeapon == 1)
+        {
+            weaponController.isSniperUnlocked = true;
+        }
+        else if (weaponController.currentWeapon == 2)
+        {
+            weaponController.isFlamethrowerUnlocked = true;
+        }
+    }
     private void OnEnable()
     {
         
@@ -45,10 +67,13 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnDisable()
     {
-        playerControls.Disable();
-        playerControls.Player.Move.performed -= OnMove;
-        playerControls.Player.Move.canceled -= OnMove;
-        playerControls.Player.shot.performed -= OnShot;
+        if (playerControls != null)
+        {
+            playerControls.Disable();
+            playerControls.Player.Move.performed -= OnMove;
+            playerControls.Player.Move.canceled -= OnMove;
+            playerControls.Player.shot.performed -= OnShot;
+        }
     }
 
     // Este método será llamado por Unity Events (vinculado a la acción Move)

@@ -8,14 +8,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-
+    GameObject player;
     
     void Awake()
     {
         
         
     }
-
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) return;
+        player.transform.position = new Vector3(0, 0, 0);
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,5 +37,11 @@ public class SceneController : MonoBehaviour
     public static void ExitGame()
     {
         Application.Quit();
-    }   
+    }  
+    
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
 }
