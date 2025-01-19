@@ -22,7 +22,7 @@ public class bulletBehaviour : MonoBehaviour
                 
             }
             
-            Debug.Log("Hit: " + collision.name);
+            
             Destroy(gameObject);
         
         

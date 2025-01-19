@@ -20,9 +20,13 @@ public class NewMapGenerator : MonoBehaviour
     {
         grid = FindObjectOfType<Grid>();
         GameObject newRoom = Instantiate(defaultRoom, grid.transform);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        roomNum += player.GetComponent<PlayerMovement>().loop;
+        maxEnemiesPerRoom += player.GetComponent<PlayerMovement>().loop/3;
         rooms.Add(newRoom);
         GenerateMap(newRoom);
         
+
     }
 
     void GenerateMap(GameObject room)
@@ -86,50 +90,50 @@ public class NewMapGenerator : MonoBehaviour
             List<int> doors = new List<int>();
             Vector2 position = room.transform.position;
 
-            // Identificar las puertas (vecinos) de la habitación actual
+            
             foreach (GameObject otherRoom in rooms)
             {
-                // Evitar comparar la habitación consigo misma
+               
                 if (room == otherRoom) continue;
 
                 Vector2 otherPosition = otherRoom.transform.position;
 
-                // Comparar posiciones relativas para determinar puertas
+                
                 if (otherPosition.x == position.x + 14 && otherPosition.y == position.y)
                 {
-                    if (!doors.Contains(0)) doors.Add(0); // Derecha
+                    if (!doors.Contains(0)) doors.Add(0);
                 }
                 if (otherPosition.x == position.x - 14 && otherPosition.y == position.y)
                 {
-                    if (!doors.Contains(2)) doors.Add(2); // Izquierda
+                    if (!doors.Contains(2)) doors.Add(2);
                 }
                 if (otherPosition.y == position.y + 10 && otherPosition.x == position.x)
                 {
-                    if (!doors.Contains(1)) doors.Add(1); // Arriba
+                    if (!doors.Contains(1)) doors.Add(1); 
                 }
                 if (otherPosition.y == position.y - 10 && otherPosition.x == position.x)
                 {
-                    if (!doors.Contains(3)) doors.Add(3); // Abajo
+                    if (!doors.Contains(3)) doors.Add(3); 
                 }
             }
 
-            // Ordenar puertas y depurar
+            
             doors.Sort();
             
 
-            // Intentar encontrar un prefab que coincida
+            
             bool replaced = false;
             List<GameObject> possibleRoom=new List<GameObject>();
             foreach (GameObject prefab in roomPrefabs)
             {
-                // Obtener las puertas del prefab
+                
                 Door[] prefabDoors = prefab.GetComponentsInChildren<Door>();
                 List<int> prefabDoorDirections = prefabDoors.Select(d => d.direction).ToList();
                 prefabDoorDirections.Sort();
 
                 
 
-                // Comparar puertas
+                
                 if (prefabDoorDirections.SequenceEqual(doors))
                 {
                     possibleRoom.Add(prefab);

@@ -10,17 +10,18 @@ public class PlayerMovement : MonoBehaviour
     PlayerControls playerControls;
     public int lives = 3;
     public int coins = 0;
-    public float moveSpeed = 5f;             // Velocidad del jugador
-    private Vector2 movementInput;          // Entrada del movimiento
-    private Rigidbody2D rb;                 // Referencia al Rigidbody2D
-    private Animator animator;              // Referencia al Animator
+    public int loop = 1;
+    public float moveSpeed = 5f;             
+    private Vector2 movementInput;          
+    private Rigidbody2D rb;                 
+    private Animator animator;              
     private weaponController weaponController;
     bool isDead = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Debug.Log("Player already exists, destroying new player object");
+            
             Destroy(gameObject);
             
             return;
@@ -41,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
         weaponController.isMeleeUnlocked = false;
         weaponController.isSniperUnlocked = false;
         weaponController.isFlamethrowerUnlocked = false;
-        weaponController.currentWeapon=Random.Range(0,3);
+        weaponController.currentWeapon=Random.Range(0,2);
+        
         if (weaponController.currentWeapon == 0)
         {
             weaponController.isMeleeUnlocked = true;
@@ -115,17 +117,17 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage()
     {
         lives--;
-        Debug.Log("Auch");
+        
         if (lives == 0)
         {
             isDead = true;
             Die();
         }
-        Debug.Log("Dead: "+isDead);
+        
     }
     public void Die()
     {
-        // Aquí se puede agregar lógica adicional para la muerte del jugador
+        
         isDead=true;
         Debug.Log("Player died!");
     }

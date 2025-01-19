@@ -15,7 +15,6 @@ public class EventController : MonoBehaviour
         storePanel.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -49,12 +48,12 @@ public class EventController : MonoBehaviour
 
     public void EnemyDefeat()
     {
-        Debug.Log("An enemy was defeated");
+        
         GameObject player=GameObject.FindGameObjectWithTag("Player");
         if (player != null) { player.GetComponent<PlayerMovement>().coins += UnityEngine.Random.Range(0, 6); }
         
         enemiesDefeated++;
-        Debug.Log("Enemies defeated: " + enemiesDefeated);
+        
         if (enemiesDefeated == enemiesToDefeat)
         {
             OnEnemiesDefeat?.Invoke();

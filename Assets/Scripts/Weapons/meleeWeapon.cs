@@ -26,35 +26,16 @@ public class meleeWeapon : WeaponSO
         }
 
         Quaternion rotation = Quaternion.Euler(0f, 0f, angle);
-
-
+        
         if (hitEffect != null)
         {
+            
             Vector3 spawn = origin.position; 
             spawn.z=-1;
             GameObject stick = Instantiate(hitEffect, spawn, rotation);
+            stick.GetComponent<stick>().damage = damage;
             Destroy(stick, 0.5f);  
         }
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(origin.position, range);
         
-        foreach (Collider2D enemyCollider in hitEnemies)
-        {
-            if (enemyCollider.CompareTag("Enemy"))
-            {
-                EnemyBehavior enemy = enemyCollider.GetComponent<EnemyBehavior>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(damage); 
-                    Debug.Log($"Golpeado: {enemy.name}");
-                }
-                else
-                {
-                    TurretBehaviour turret = enemyCollider.GetComponent<TurretBehaviour>();
-                    turret.TakeDamage(damage); 
-                    Debug.Log($"Golpeado: {turret.name}");
-                }
-            }
-            
-        }
     }
 }

@@ -8,7 +8,7 @@ public class EnemyControl : MonoBehaviour
     private GameObject target;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         enemyBehavior = GetComponent<EnemyBehavior>();
         animator = GetComponent<Animator>();
@@ -16,41 +16,56 @@ public class EnemyControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (enemyBehavior.health > 0)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            target = collision.gameObject;
-            animator.SetBool("IsChasing", true);
-            enemyBehavior.currentState = EnemyBehavior.EnemyState.Chase;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(enemyBehavior.health>0)
-        {
-            animator.SetBool("IsChasing", false);
-            enemyBehavior.currentState = EnemyBehavior.EnemyState.Idle;
-        }
-        
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (enemyBehavior.health > 0)
-        {
-            if (collision.gameObject.CompareTag("Player"))
+            if (enemyBehavior.health > 0)
             {
-                animator.SetBool("Attack", true);
-                enemyBehavior.currentState = EnemyBehavior.EnemyState.Attack;
+                target = collision.gameObject;
+                animator.SetBool("IsChasing", true);
+                enemyBehavior.currentState = EnemyBehavior.EnemyState.Chase;
             }
         }
         
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (enemyBehavior.health > 0)
+            {
+                animator.SetBool("IsChasing", false);
+                enemyBehavior.currentState = EnemyBehavior.EnemyState.Idle;
+            }
+        }
+
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+            if (enemyBehavior.health > 0)
+            {
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    animator.SetBool("Attack", true);
+                    enemyBehavior.currentState = EnemyBehavior.EnemyState.Attack;
+                }
+            }
+
+        
+        
+    }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (enemyBehavior.health > 0)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            animator.SetBool("Attack", false);
-            enemyBehavior.currentState = EnemyBehavior.EnemyState.Chase;
+            if (enemyBehavior.health > 0)
+            {
+                animator.SetBool("Attack", false);
+                enemyBehavior.currentState = EnemyBehavior.EnemyState.Chase;
+            }
         }
+        
         
     }
 

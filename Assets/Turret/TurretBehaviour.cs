@@ -62,7 +62,7 @@ public class TurretBehaviour : MonoBehaviour
 
     public void DeadState()
     {
-        Debug.Log("Dead");
+        
         StartCoroutine(FadeOutAndDestroy());
     }
 
@@ -94,18 +94,18 @@ public class TurretBehaviour : MonoBehaviour
         float elapsedTime = 0f;
         Color originalColor = spriteRenderer.color;
         Color targetColor = originalColor;
-        targetColor.a = 0f;  // Establece alpha a 0 para hacer transparente
+        targetColor.a = 0f; 
 
         while (elapsedTime < fadeDuration)
         {
             spriteRenderer.color = Color.Lerp(originalColor, targetColor, elapsedTime / fadeDuration);
             elapsedTime += Time.deltaTime;
-            yield return null;  // Espera al siguiente frame
+            yield return null;  
         }
 
-        spriteRenderer.color = targetColor;  // Asegura transparencia total
-          // Llama al evento de derrota de enemigo
-        Destroy(gameObject);  // Destruye el objeto después del desvanecimiento
+        spriteRenderer.color = targetColor; 
+        
+        Destroy(gameObject);  
     }
 
     public void OnDestroy()
