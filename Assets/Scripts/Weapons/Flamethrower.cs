@@ -24,16 +24,19 @@ public class Flamethrower : WeaponSO
         Vector3 spawn = origin.position+(Vector3)direction*0.7f;
         GameObject player= GameObject.FindGameObjectWithTag("Player");
         GameObject effect = Instantiate(flameEffect, spawn,rotation,player.transform);
-        
+        Destroy(effect, 2f);
         
 
-        // Detectar enemigos en un cono o área frente al lanzallamas
+        /*
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin.position, direction, 10f);
         
         foreach (RaycastHit2D hit in hits)
         {
             
+            
             Debug.Log($"Quemado: {hit.collider.name}");
         }
+        */
+
     }
 }

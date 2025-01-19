@@ -27,7 +27,8 @@ public class SceneController : MonoBehaviour
     {
         
     }
-   
+
+
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
@@ -41,6 +42,7 @@ public class SceneController : MonoBehaviour
     
     public void ReloadScene()
     {
+        player.GetComponent<PlayerMovement>().loop += 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     

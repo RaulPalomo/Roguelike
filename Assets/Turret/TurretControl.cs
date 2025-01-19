@@ -5,7 +5,7 @@ using UnityEngine;
 public class TurretControl : MonoBehaviour
 {
     private TurretBehaviour turretBehaviour;
-    void Start()
+    void Awake()
     {
         turretBehaviour = GetComponent<TurretBehaviour>();
     }

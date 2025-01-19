@@ -14,7 +14,7 @@ public class Pause : MonoBehaviour
         controls = new PlayerControls();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         
